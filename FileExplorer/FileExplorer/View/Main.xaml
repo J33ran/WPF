@@ -1,0 +1,26 @@
+﻿<Window x:Class="FileExplorer.View.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v ="clr-namespace:FileExplorer.View"
+        Title="Main" Height="500" Width="500">
+    
+    <Grid Name="MainGrid" Background="Blue">
+        
+        <!-- Define two columns: -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Display "Directory" on left-->
+        <v:Directory Grid.Column="0"/>
+        
+        <!-- Grid Splitter -->
+        <GridSplitter Grid.Column="0" Width="3" Background="Gray"/>
+
+        <!--Display "Detail" on right-->
+        <v:Detail Grid.Column="1"/>
+        
+
+    </Grid>
+</Window>
