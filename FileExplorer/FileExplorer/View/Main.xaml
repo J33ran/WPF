@@ -2,7 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v ="clr-namespace:FileExplorer.View"
+        xmlns:ctrl ="clr-namespace:FileExplorer.Controller"
         Title="Main" Height="500" Width="500">
+
+    <Window.DataContext>
+        <ctrl:Controller/>
+    </Window.DataContext>
     
     <Grid Name="MainGrid" Background="Blue">
         

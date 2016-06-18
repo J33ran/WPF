@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.IO;
-using FileExplorer.Model;
 using System.Windows;
 using System.Windows.Markup;
+using FileExplorer.Model;
 
 namespace FileExplorer.ViewModel
 {
@@ -20,6 +20,9 @@ namespace FileExplorer.ViewModel
 
     public class DirInfoConverter : BaseConverter, IValueConverter
     {
+        public DirInfoConverter()
+            :base()
+        {}
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

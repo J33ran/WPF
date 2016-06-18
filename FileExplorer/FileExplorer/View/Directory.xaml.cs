@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FileExplorer.Model;
+using FileExplorer.Controller;
+
 
 namespace FileExplorer.View
 {
@@ -27,6 +30,12 @@ namespace FileExplorer.View
 
         private void SelectionChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
         {
+            //Perform actions when SelectedItem changes
+            DirInfo dir = e.NewValue as DirInfo;
+
+            Controller.Controller controller = DataContext as Controller.Controller;
+            controller.SelectedDirectory = dir;
+
         }
 
         private void TreeView_Expanded(object sender, RoutedEventArgs e)

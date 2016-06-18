@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mdl="clr-namespace:FileExplorer.Model"
              xmlns:src="clr-namespace:FileExplorer.ViewModel"
+             xmlns:ctrl ="clr-namespace:FileExplorer.Controller"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-        
-        <src:DirectoryViewModel x:Key="DirectoryViewModel" />
-        
-        <HierarchicalDataTemplate DataType="{x:Type src:DirInfo}" 
+        <HierarchicalDataTemplate DataType="{x:Type mdl:DirInfo}" 
                                   ItemsSource="{Binding Converter={src:DirInfoConverter}}">
             
             <StackPanel Orientation="Horizontal">
@@ -32,18 +31,22 @@
         </HierarchicalDataTemplate>
 
         <Style TargetType="TreeViewItem">
-            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <!--<Setter Property="IsExpanded" Value="{Binding DirectoryViewModel.IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected" Value="{Binding DirectoryViewModel.IsSelected, Mode=TwoWay}" />-->
             <!--<Setter Property="bindTreeViewExpand:Behaviours.ExpandingBehaviour" Value="{Binding ExpandingCommand}"/>-->
             <EventSetter Event="Expanded" Handler="TreeView_Expanded"></EventSetter>
         </Style>
         
     </UserControl.Resources>
 
-    <Grid DataContext="{StaticResource DirectoryViewModel}">
+    <!--<UserControl.DataContext>
+        <ctrl:Controller/>
+    </UserControl.DataContext>-->
+    
+    <Grid>
         <!-- Tree view Col 0: -->
         <TreeView Grid.Column ="0" x:Name="DirectoryTree" 
-                ItemsSource="{Binding Path=Directories}"
+                ItemsSource="{Binding Path=DirectoryViewModel.Childs}"
                 SelectedItemChanged="SelectionChanged" 
                 BorderThickness="0">
         </TreeView>

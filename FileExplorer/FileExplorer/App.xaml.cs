@@ -14,12 +14,12 @@ namespace FileExplorer
     /// </summary>
     public partial class App : Application
     {
-        public Controller.Controller Controller { get; private set; }
+        //public Controller.Controller Controller { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Controller = new Controller.Controller();
+            //Controller = new Controller.Controller();
         }
     }
 }

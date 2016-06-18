@@ -9,7 +9,7 @@ using System.Windows;
 using System.Collections;
 
 
-namespace FileExplorer.ViewModel
+namespace FileExplorer.Model
 {
     /// <summary>
     /// Enum to hold the Types of different file objects
@@ -25,7 +25,7 @@ namespace FileExplorer.ViewModel
     /// <summary>
     /// Class for containing the information about a Directory/File
     /// </summary>
-    public class DirInfo : DependencyObject
+    public class DirInfo //: DependencyObject
     {
         #region // Public Properties
         public string Name { get; set; }
@@ -78,26 +78,6 @@ namespace FileExplorer.ViewModel
 
             Path = driveobj.Name;
             DirType = (int)ObjectType.DiskDrive;
-        } 
-        #endregion
-
-        #region Dependency Properties   
-        public static readonly DependencyProperty propertyIsExpanded
-            = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(DirectoryViewModel));
-
-        public bool IsExpanded
-        {
-            get { return (bool)GetValue(propertyIsExpanded); }
-            set { SetValue(propertyIsExpanded, value); }
-        }
-
-        public static readonly DependencyProperty propertyIsSelected =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(DirectoryViewModel));
-
-        public bool IsSelected
-        {
-            get { return (bool)GetValue(propertyIsSelected); }
-            set { SetValue(propertyIsSelected, value); }
         } 
         #endregion
     }
