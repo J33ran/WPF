@@ -24,5 +24,13 @@ namespace FileExplorer.View
         {
             InitializeComponent();
         }
+
+        private void SelectionChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
+        {
+        }
+
+        private void TreeView_Expanded(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace FileExplorer.ViewModel
     /// <summary>
     /// Class for containing the information about a Directory/File
     /// </summary>
-    public class DirInfo //: DependencyObject
+    public class DirInfo : DependencyObject
     {
         #region // Public Properties
         public string Name { get; set; }
@@ -37,29 +37,7 @@ namespace FileExplorer.ViewModel
         public IList<DirInfo> SubDirectories;
         #endregion
 
-        
-        //#region // Dependency Properties
-        //public static readonly DependencyProperty propertyChilds = DependencyProperty.Register("Childs", typeof(IList<DirInfo>), typeof(DirInfo));
-        //{
-        //    get { return (IList<DirInfo>)GetValue(propertyChilds); }
-        //    set { SetValue(propertyChilds, value); }
-        //}
-
-        //public static readonly DependencyProperty propertyIsExpanded = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(DirInfo));
-        //public bool IsExpanded
-        //{
-        //    get { return (bool)GetValue(propertyIsExpanded); }
-        //    set { SetValue(propertyIsExpanded, value); }
-        //}
-
-        //public static readonly DependencyProperty propertyIsSelected = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DirInfo));
-        //public bool IsSelected
-        //{
-        //    get { return (bool)GetValue(propertyIsSelected); }
-        //    set { SetValue(propertyIsSelected, value); }
-        //} 
-        //#endregion
-
+     
         #region // .ctor(s)
         public DirInfo()
         {
@@ -100,6 +78,26 @@ namespace FileExplorer.ViewModel
 
             Path = driveobj.Name;
             DirType = (int)ObjectType.DiskDrive;
+        } 
+        #endregion
+
+        #region Dependency Properties   
+        public static readonly DependencyProperty propertyIsExpanded
+            = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(DirectoryViewModel));
+
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(propertyIsExpanded); }
+            set { SetValue(propertyIsExpanded, value); }
+        }
+
+        public static readonly DependencyProperty propertyIsSelected =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(DirectoryViewModel));
+
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(propertyIsSelected); }
+            set { SetValue(propertyIsSelected, value); }
         } 
         #endregion
     }

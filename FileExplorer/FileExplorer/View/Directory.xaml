@@ -30,14 +30,22 @@
                 </DataTrigger>
             </HierarchicalDataTemplate.Triggers>
         </HierarchicalDataTemplate>
+
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <!--<Setter Property="bindTreeViewExpand:Behaviours.ExpandingBehaviour" Value="{Binding ExpandingCommand}"/>-->
+            <EventSetter Event="Expanded" Handler="TreeView_Expanded"></EventSetter>
+        </Style>
+        
     </UserControl.Resources>
 
     <Grid DataContext="{StaticResource DirectoryViewModel}">
         <!-- Tree view Col 0: -->
         <TreeView Grid.Column ="0" x:Name="DirectoryTree" 
-                ItemsSource="{Binding Path=Directories}" /> 
-                <!--SelectedItemChanged="DirectoryTree_SelectedItemChanged" 
-                BorderThickness="0"--><!-- 
-         />-->
+                ItemsSource="{Binding Path=Directories}"
+                SelectedItemChanged="SelectionChanged" 
+                BorderThickness="0">
+        </TreeView>
     </Grid>
 </UserControl>

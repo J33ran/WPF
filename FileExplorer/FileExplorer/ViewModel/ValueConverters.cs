@@ -23,7 +23,8 @@ namespace FileExplorer.ViewModel
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            try {
+            try
+            {
                 DirInfo nodeToExpand = value as DirInfo;
                 if (nodeToExpand == null)
                     return null;
@@ -41,7 +42,10 @@ namespace FileExplorer.ViewModel
                  }
                  
             }
-            catch { return null; }
+            catch
+            { 
+                return null; 
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

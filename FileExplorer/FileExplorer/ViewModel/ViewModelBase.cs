@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
+
 
 namespace FileExplorer.ViewModel
 {
@@ -9,7 +11,7 @@ namespace FileExplorer.ViewModel
     /// It provides support for property change notifications 
     /// and has a DisplayName property.  This class is abstract.
     /// </summary>
-    public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
+    public abstract class ViewModelBase : DependencyObject, INotifyPropertyChanged, IDisposable
     {
         #region Constructor
 
