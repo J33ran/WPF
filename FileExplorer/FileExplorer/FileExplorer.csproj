@@ -53,6 +53,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\DirectoryService.cs" />
+    <Compile Include="ViewModel\DirectoryViewModel.cs" />
+    <Compile Include="Model\DirInfo.cs" />
+    <Compile Include="ViewModel\ValueConverters.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Detail.xaml.cs">
       <DependentUpon>Detail.xaml</DependentUpon>
     </Compile>
@@ -106,6 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\diskdrive.png" />
+    <Resource Include="Image\file.png" />
+    <Resource Include="Image\folder.png" />
+    <Resource Include="Image\MyComputer.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
