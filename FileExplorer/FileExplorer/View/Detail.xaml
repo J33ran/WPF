@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ctrl="clr-namespace:FileExplorer.Controller"
+             xmlns:src="clr-namespace:FileExplorer.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -12,12 +13,95 @@
         <ListView Name="LVDetail" Grid.Column="1" ItemsSource="{Binding DetailViewModel.Children}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Type" Width="50"  DisplayMemberBinding="{Binding  Type}" />
-                    <!--<GridViewColumn Header="Path" Width="150" DisplayMemberBinding="{Binding Path}" />
-                    <GridViewColumn Header="Type" Width="150" DisplayMemberBinding="{Binding Size}" />-->
+                    <GridViewColumn Header="Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Converter={src:DirInfoToList}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="20" Height="20" Stretch="Fill" x:Name="img"/>
+                                                <TextBlock Text="{Binding Path=Name}" Margin="5,0,0,0" />
+                                            </StackPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="0">
+                                                    <Setter Property="Image.Source" TargetName="img" Value="/Image/MyComputer.jpg"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="1">
+                                                    <Setter Property="Image.Source" TargetName="img" Value="/Image/diskdrive.png"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="2">
+                                                    <Setter Property="Image.Source" TargetName="img" Value="/Image/folder.png"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="3">
+                                                    <Setter Property="Image.Source" TargetName="img" Value="/Image/file.png"></Setter>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Type">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Converter={src:DirInfoToList}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="FileType" Margin="5,0,0,0" />
+                                            </StackPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="0">
+                                                    <Setter Property="TextBlock.Text" TargetName="FileType" Value="My Computer"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="1">
+                                                    <Setter Property="TextBlock.Text" TargetName="FileType" Value="Drive"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="2">
+                                                    <Setter Property="TextBlock.Text" TargetName="FileType" Value="Folder"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=DirType}" Value="3">
+                                                    <Setter Property="TextBlock.Text" TargetName="FileType" Value="File"></Setter>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
+                    <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}" />
                 </GridView>
             </ListView.View>
         </ListView>
     </Grid>
 </UserControl>
+
+
+<!--<ItemsControl ItemsSource ="{Binding Path=Type}">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <Image Width="20" Height="20" Stretch="Fill" x:Name="img" />
+                <TextBlock Text="{Binding Name}" Margin="5,0,0,0" />
+            </StackPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding}" Value="0">
+                    <Setter Property="Image.Source" TargetName="img" Value="/Image/MyComputer.jpg"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="1">
+                    <Setter Property="Image.Source" TargetName="img" Value="/Image/diskdrive.png"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="2">
+                    <Setter Property="Image.Source" TargetName="img" Value="/Image/folder.png"></Setter>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+</DataTemplate>
+</GridViewColumn.CellTemplate>
+</GridViewColumn>-->

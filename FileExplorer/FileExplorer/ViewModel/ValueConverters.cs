@@ -59,6 +59,37 @@ namespace FileExplorer.ViewModel
         #endregion
     }
 
+    public class DirInfoToList : BaseConverter, IValueConverter
+    {
+        public DirInfoToList()
+            : base()
+        { }
+        #region IValueConverter Members
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            try
+            {
+                DirInfo nodeToExpand = value as DirInfo;
+                if (nodeToExpand == null)
+                    return null;
+
+                return new List<DirInfo>() { nodeToExpand };
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
 //#if 0
 //    public class ControlVisibilityConverter : IValueConverter
 //    {
