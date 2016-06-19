@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FileExplorer.Model;
 
 namespace FileExplorer.View
 {
@@ -23,6 +24,14 @@ namespace FileExplorer.View
         public Detail()
         {
             InitializeComponent();
+        }
+
+        protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var dir = ((ListViewItem)sender).Content as DirInfo;
+       
+            Controller.Controller controller = DataContext as Controller.Controller;
+            controller.SelectedDirectory = dir;
         }
     }
 }

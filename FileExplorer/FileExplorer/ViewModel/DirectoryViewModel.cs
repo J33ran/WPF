@@ -22,13 +22,13 @@ namespace FileExplorer.ViewModel
         #endregion
     
         #region // Dependency Properties
-        public static readonly DependencyProperty propertyChilds
-            = DependencyProperty.Register("Childs", typeof(IList<DirInfo>), typeof(DirectoryViewModel));
+        public static readonly DependencyProperty propertyChildren
+            = DependencyProperty.Register("Children", typeof(IList<DirInfo>), typeof(DirectoryViewModel));
 
-        public IList<DirInfo> Childs
+        public IList<DirInfo> Children
         {
-            get { return (IList<DirInfo>)GetValue(propertyChilds); }
-            set { SetValue(propertyChilds, value); }
+            get { return (IList<DirInfo>)GetValue(propertyChildren); }
+            set { SetValue(propertyChildren, value); }
         }
 
         public static readonly DependencyProperty propertyIsExpanded = 

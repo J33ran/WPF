@@ -8,12 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <Style x:Key="itemstyle" TargetType="{x:Type ListViewItem}">
+            <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <!-- List view Col 1: -->
-        <ListView Name="LVDetail" Grid.Column="1" ItemsSource="{Binding DetailViewModel.Children}">
+        <ListView Name="LVDetail" Grid.Column="1" ItemsSource="{Binding DetailViewModel.Children}" ItemContainerStyle="{StaticResource itemstyle}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name">
+                    <GridViewColumn Header="Name" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ItemsControl ItemsSource="{Binding Converter={src:DirInfoToList}}">
@@ -43,7 +49,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Type">
+                    <GridViewColumn Header="Type" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ItemsControl ItemsSource="{Binding Converter={src:DirInfoToList}}">
@@ -72,36 +78,10 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
-                    <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}" />
+                    <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" Width="Auto"/>
+                    <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}" Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
     </Grid>
 </UserControl>
-
-
-<!--<ItemsControl ItemsSource ="{Binding Path=Type}">
-    <ItemsControl.ItemTemplate>
-        <DataTemplate>
-            <StackPanel Orientation="Horizontal">
-                <Image Width="20" Height="20" Stretch="Fill" x:Name="img" />
-                <TextBlock Text="{Binding Name}" Margin="5,0,0,0" />
-            </StackPanel>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding}" Value="0">
-                    <Setter Property="Image.Source" TargetName="img" Value="/Image/MyComputer.jpg"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding}" Value="1">
-                    <Setter Property="Image.Source" TargetName="img" Value="/Image/diskdrive.png"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding}" Value="2">
-                    <Setter Property="Image.Source" TargetName="img" Value="/Image/folder.png"></Setter>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
-    </ItemsControl.ItemTemplate>
-</ItemsControl>
-</DataTemplate>
-</GridViewColumn.CellTemplate>
-</GridViewColumn>-->

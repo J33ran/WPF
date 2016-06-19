@@ -46,7 +46,7 @@
     <Grid>
         <!-- Tree view Col 0: -->
         <TreeView Grid.Column ="0" x:Name="DirectoryTree" 
-                ItemsSource="{Binding Path=DirectoryViewModel.Childs}"
+                ItemsSource="{Binding Path=DirectoryViewModel.Children}"
                 SelectedItemChanged="SelectionChanged" 
                 BorderThickness="0">
         </TreeView>

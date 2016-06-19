@@ -20,6 +20,7 @@ namespace FileExplorer.Controller
         private DirectoryViewModel _directoryViewModel;
         private DetailViewModel _detailViewModel;
         private DirInfo _selectedDirectory;
+        private DirInfo _oldSelectedDir;
         #endregion
 
         #region Constructor
@@ -45,7 +46,7 @@ namespace FileExplorer.Controller
             set
             {
                 _selectedDirectory = value;
-                _detailViewModel.Children = GetDirAndFiles();
+                _detailViewModel.Children = GetDirAndFiles();    
             }
         }
 
@@ -56,9 +57,9 @@ namespace FileExplorer.Controller
             {
                 _directoryViewModel = value;
 
-                if (_directoryViewModel.Childs == null)
+                if (_directoryViewModel.Children == null)
                 {
-                    _directoryViewModel.Childs = new List<DirInfo>() { new DirInfo(Resources.My_Computer_String) };
+                    _directoryViewModel.Children = new List<DirInfo>() { new DirInfo(Resources.My_Computer_String) };
                 }
             }
         }
