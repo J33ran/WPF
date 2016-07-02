@@ -1,0 +1,35 @@
+﻿<Window x:Class="SeismicGraphDatabase.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:SeismicGraphDatabase"
+        Title="MainWindow" Height="350" Width="525">
+    <!--<Window.Resources>
+        <data name="SeismicFilesFilter" xml:space="preserve">
+            <value>Seismic files (*.segy, *.sgy, *.3dx, *.3ds)|*.sgy;*.segy;*.3dx;*.3ds</value>
+        </data>
+    </Window.Resources>-->
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <!--<Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="E-Mail:"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Comment:"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="3" />
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="3" />
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="3" />-->
+        <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" 
+            MinWidth="80" Margin="0,90,-120,173" Content="Load Seismic" Width="110" 
+            Command="{Binding OpenCommand}" CommandParameter="{Binding}"   />
+    </Grid>
+</Window>
