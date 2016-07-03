@@ -35,26 +35,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LMKR.Entities">
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.EntitiesPackage.4.1.16175.4\lib\net451\LMKR.Entities.dll</HintPath>
+    <Reference Include="LMKR">
+      <HintPath>..\..\..\packages\LMKR.dll.4.1.16175.4\lib\net451\LMKR.dll</HintPath>
     </Reference>
-    <Reference Include="LMKR.Entities.GeoGraphix, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LMKR.Entities, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.Entities.GeoGraphix.4.1.16172.1\lib\net451\LMKR.Entities.GeoGraphix.dll</HintPath>
+      <HintPath>..\..\..\packages\LMKR.EntitiesPackage.4.1.16175.4\lib\net451\LMKR.Entities.dll</HintPath>
     </Reference>
-    <Reference Include="LMKR.Internal.IO.GeoGraphix, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.Internal.IO.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Internal.IO.GeoGraphix.dll</HintPath>
+    <Reference Include="LMKR.Entities.GeoGraphix">
+      <HintPath>..\..\..\packages\LMKR.Entities.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Entities.GeoGraphix.dll</HintPath>
+    </Reference>
+    <Reference Include="LMKR.Internal.IO.GeoGraphix">
+      <HintPath>..\..\..\packages\LMKR.Internal.IO.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Internal.IO.GeoGraphix.dll</HintPath>
     </Reference>
     <Reference Include="LMKR.IO">
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.IOPackage.4.1.16175.4\lib\net451\LMKR.IO.dll</HintPath>
+      <HintPath>..\..\..\packages\LMKR.IOPackage.4.1.16175.4\lib\net451\LMKR.IO.dll</HintPath>
     </Reference>
     <Reference Include="LMKR.Windows">
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.WindowsPackage.4.1.16175.4\lib\net451\LMKR.Windows.dll</HintPath>
+      <HintPath>..\..\..\packages\LMKR.WindowsPackage.4.1.16175.4\lib\net451\LMKR.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.0.30714, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+    <Reference Include="LMKR.Windows.Controls, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.Logging.4.1.16172.1\lib\net451\log4net.dll</HintPath>
+      <HintPath>..\..\..\packages\LMKR.Windows.Controls.4.1.16175.4\lib\net451\LMKR.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="LMKR.Windows.GeoGraphix, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\LMKR.Windows.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Windows.GeoGraphix.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -65,6 +71,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\..\LMKR\SDK\Main\packages\Telerik.Windows.Controls.dll.2014.2.617\lib\net45\Binaries\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\..\..\LMKR\SDK\Main\packages\Telerik.Windows.Controls.Input.2014.2.617\lib\net45\Binaries\Telerik.Windows.Controls.Input.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
