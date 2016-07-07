@@ -23,17 +23,50 @@ using Neo4j.Driver.V1;
 
 namespace SeismicGraphDatabase
 {
-    struct node
+    class Relation
     {
+        public string name { get; set; }
+        public double? inline { get; set; }
+        public double? crossline { get; set; }
+        public float? timeline { get; set; }
+    };
+
+
+    class Brick
+    {
+        // Copy constructor.
+        public Brick(Brick rhs)
+        {
+            inline = rhs.inline;
+            crossline = rhs.crossline;
+            timeline = rhs.timeline;
+
+            samples = rhs.samples;
+
+            // Specfically done for time relation
+            parentCrossline = rhs.parentCrossline;
+            parentInline = rhs.parentInline;
+            parentTime = rhs.parentTime;
+
+        }
+
+        public Brick()
+        {
+        }
+
         public double inline { get; set; }
         public double crossline { get; set; }
-        public float[] time { get; set; }
+        public float timeline { get; set; }
+        public float[] samples { get; set; }
         public double? parentInline { get; set; }
         public double? parentCrossline { get; set; }
+        public float? parentTime { get; set; }
     };
 
     class MainViewModel : ISeisVisionLicenseHandler
     {
+ 
+
         public void CheckInSeisVisionLicense()
         { }
 
@@ -45,50 +78,114 @@ namespace SeismicGraphDatabase
         private static readonly ISession session;
 
 
-        private RelayCommand<object> _browseFilesCommand;
+        //private RelayCommand<object> _browseFilesCommand;
         private RelayCommand<object> _loadSeismicCommand;
 
-        private static void CreateRelation(string relname, double? parent, double child)
+        private static void CreateRelation(Brick brick, Relation relation)
         {
-            if (parent != null)
-            {
-                var relation = String.Format(@"MATCH (a:Brick),(b:Brick)
-                                WHERE a.{0} = '{1}' AND b.{0} = '{2}'               
-                                CREATE (a)-[r:RELTYPE {{ {0} : a.{1} + '<->' + b.{2} }}]->(b)"
-                                    , new object[] {relname, parent, child}
-                                );
+            var cypher =
+                        String.Format(@"MATCH (a:Brick),(b:Brick)
+                        WHERE   a.inline = {0} AND b.inline = {1}                
+                        AND     a.crossline = {2} AND b.crossline = {3}
+                        AND     a.timeline = {4} AND b.timeline = {5}
+                            CREATE (a)-[:{6}]->(b)"
+                        , new object[] 
+                        { 
+                              relation.inline
+                            , brick.inline
+                            , relation.crossline
+                            , brick.crossline
+                            , relation.timeline
+                            , brick.timeline
+                            , relation.name
+                        }
+                    );
 
-                session.Run(relation);
-            }
+            session.Run(cypher);
         }
-
-        public static void CeateNode(Object o)
+       
+        public static void CreateBrick(Object o)
         {
-            var n = (node)o;
-
-            double? parentTime = null;
-            
-            for (int i = 0; i < n.time.Length; i++)
+            var brick = (Brick)o;
+            Relation timeLineRelation = new Relation
             {
+                name = @"Timeline"
+                ,
+                inline = brick.inline
+                ,
+                crossline = brick.crossline
+                ,
+                timeline = null
+            };
+
+            Relation crossLineRelation = new Relation
+            {
+                name = @"Crossline"
+                ,
+                inline = brick.inline
+                ,
+                crossline = brick.parentCrossline
+                ,
+                timeline = null
+            };
+
+            Relation inLineRelation = new Relation
+            {
+                name = @"Inline"
+                ,
+                inline = brick.parentInline
+                ,
+                crossline = brick.crossline
+                ,
+                timeline = null
+            };
+
+            for (int i = 0; i < brick.samples.Length; i++)
+            {
+                brick.timeline = i;
+
+                // Create a single brick
                 var createProps =
                      new Dictionary<string, object> { 
-                                                { "inline", n.inline }
-                                                , {"crossline", n.crossline}
-                                                , {"time", n.time[i]}
+                                                { "inline", brick.inline }
+                                                , {"crossline", brick.crossline}
+                                                , {"timeline", brick.timeline}
+                                                , {"sample", brick.samples[i]}
                      };
 
                 var result = session.Run(@"CREATE (brick:Brick {
                                             inline: {inline}
                                             , crossline: {crossline}
-                                            , time: {time} 
+                                            , timeline: {timeline}
+                                            , sample: {sample} 
                                             })",
                                             createProps);
 
-                //Time Relation
-                CreateRelation("time", parentTime, i);
-                parentTime = i;
-            }
 
+                //Timeline Relation
+                if (timeLineRelation.timeline != null) 
+                {
+                   CreateRelation(brick, timeLineRelation);
+                }
+                
+                timeLineRelation.timeline = brick.timeline;
+
+                // Crossline Relation
+                if (crossLineRelation.crossline != null)
+                {
+                    crossLineRelation.timeline = brick.timeline;
+                    CreateRelation(brick, crossLineRelation);
+
+                }
+
+                // Inline Relation
+                if (inLineRelation.inline != null)
+                {
+                    inLineRelation.timeline = brick.timeline;
+                    CreateRelation(brick, inLineRelation);
+                }
+              
+            }
         }
 
 
@@ -101,9 +198,7 @@ namespace SeismicGraphDatabase
 
         }
         public MainViewModel()
-        {
-            //var dlg = new SeismicInputDialog(256, 1, this);           
-            
+        {       
         }
 
         public ICommand LoadSeismicCommand
@@ -151,76 +246,24 @@ namespace SeismicGraphDatabase
                     for (var crossline = gridInfo.Extents.CrosslineAxis.Start; crossline < dimension2; crossline++)
                     {
                         var data = reader.ReadResampledTrace((int)inline, (int)crossline, (float)samplingInterval);
-                        node n = new node
+                        Brick n = new Brick
                         {
                             inline = inline
                             , crossline = crossline
-                            , time = data
+                            , samples = data
                             , parentInline = parentInline
                             , parentCrossline = parentCrossline
+                            , parentTime  = null
                         };
 
-                        CeateNode(n);
-
-                        CreateRelation(@"Crossline", parentCrossline, crossline);
+                        CreateBrick(n);
                         parentCrossline = crossline;
 
                     }
 
-                    CreateRelation(@"Inline", parentInline, inline);
                     parentInline = inline;
-
                 }
             }
         }
-
-        //private void LoadSeismic(string _inputFilePath)
-        //{
-        //    //try
-        //    //{
-        //    //    SeismicFileBase file = null;
-        //    //    if (SeismicFileUtility.IsBrickFile(_inputFilePath) == true)
-        //    //    {
-        //    //        var brickFile = new GGXBrickFile(File.OpenRead(_inputFilePath));
-        //    //        brickFile.ReadMetadata().FilePath = _inputFilePath;
-                    
-        //    //        file = brickFile;
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        file = new SegyFile(File.OpenRead(_inputFilePath));
-        //    //    }
-
-        //    //    //file.ReadFileHeader();
-        //    //    //_segyHeaderOffsets = file.TraceHeaderOffsets.Clone();
-
-        //    //    //var metaData = file.ScanTraceHeaders();
-        //    //    //metaData.GridInfo.CreateSeismicSurvey();
-
-        //    //    //metaData.FilePath = _inputFilePath;
-        //    //    var _selectedVolume = file.OpenTraceReader();
-
-        //    //    //_activeSurveyExtents = _selectedVolume.WorkingGridInfo.Extents;
-
-        //    //    var crossLines = _selectedVolume.WorkingGridInfo.Extents.NumberCrossline;
-        //    //    var inLines = _selectedVolume.WorkingGridInfo.Extents.NumberInline;
-
-        //    //    for (int i = 0; i < inLines; i++)
-        //    //    {
-        //    //        for (int j = 0; j < crossLines; j++)
-        //    //        {
-        //    //            var data = _selectedVolume.ReadTrace(i, j);
-        //    //            //log.Info(data.ToString());
-                        
-        //    //        }
-        //    //    }
-
-        //    //    return true;
-        //    //}
-        //    //catch (InvalidDataException)
-        //    //{
-        //    //    return false;
-        //    //}
-        //}
     }
 }
