@@ -37,30 +37,57 @@
   <ItemGroup>
     <Reference Include="LMKR">
       <HintPath>..\..\..\packages\LMKR.dll.4.1.16175.4\lib\net451\LMKR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LMKR.Algorithm">
+      <HintPath>..\..\..\packages\LMKR.Algorithm.4.1.16175.4\lib\net451\LMKR.Algorithm.dll</HintPath>
     </Reference>
     <Reference Include="LMKR.Entities, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\LMKR.EntitiesPackage.4.1.16175.4\lib\net451\LMKR.Entities.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.Entities.GeoGraphix">
       <HintPath>..\..\..\packages\LMKR.Entities.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Entities.GeoGraphix.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.Internal.IO.GeoGraphix">
       <HintPath>..\..\..\packages\LMKR.Internal.IO.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Internal.IO.GeoGraphix.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.IO">
       <HintPath>..\..\..\packages\LMKR.IOPackage.4.1.16175.4\lib\net451\LMKR.IO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.Windows">
       <HintPath>..\..\..\packages\LMKR.WindowsPackage.4.1.16175.4\lib\net451\LMKR.Windows.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.Windows.Controls, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\LMKR.Windows.Controls.4.1.16175.4\lib\net451\LMKR.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LMKR.Windows.GeoGraphix, Version=4.1.16175.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\LMKR.Windows.GeoGraphix.4.1.16175.4\lib\net451\LMKR.Windows.GeoGraphix.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.0.30714, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\LMKR\AdvancedSeismicAnalysis\Main\Source\AdvancedSeismicAnalysis\packages\LMKR.Logging.4.1.16172.1\lib\net451\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Neo4j.Driver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Neo4j.Driver.1.0.2\lib\dotnet\Neo4j.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sockets.Plugin, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\net45\Sockets.Plugin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\net45\Sockets.Plugin.Abstractions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -74,9 +101,11 @@
     </Reference>
     <Reference Include="Telerik.Windows.Controls">
       <HintPath>..\..\..\..\LMKR\SDK\Main\packages\Telerik.Windows.Controls.dll.2014.2.617\lib\net45\Binaries\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Input">
       <HintPath>..\..\..\..\LMKR\SDK\Main\packages\Telerik.Windows.Controls.Input.2014.2.617\lib\net45\Binaries\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -123,6 +152,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="log4net.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
