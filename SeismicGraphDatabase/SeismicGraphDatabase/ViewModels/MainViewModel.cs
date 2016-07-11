@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SeismicGraphDatabase.Commands;
 using Microsoft.Win32;
+using System.Collections.Concurrent;
 
 using LMKR.Geometry;
 using LMKR.Windows.Controls.Dialogs.Seismic;
@@ -119,7 +120,8 @@ namespace SeismicGraphDatabase
             session.Run(cypher);
         }
        
-        public static void CreateBrick(Object o)
+        
+        public static void BuildRelations(Object o)
         {
             var brick = (Brick)o;
             Relation timeLineRelation = new Relation
@@ -247,46 +249,101 @@ namespace SeismicGraphDatabase
             //};
 
             var show = dlg.ShowDialog();
+            
+            if (show == false) return;
 
-            if (show == true)
+            SeismicTraceReaderBase reader = dlg.SelectedVolume;
+            var gridInfo = reader.WorkingGridInfo;
+
+            var dimension1 = gridInfo.Extents.InlineAxis.End;
+            var dimension2 = gridInfo.Extents.CrosslineAxis.End;
+
+
+
+            var samplingInterval = gridInfo.Extents.TimeAxis.Increment;
+            double? parentInline = null;
+            double? parentCrossline = null;
+
+            BlockingCollection<Brick> bricks = new BlockingCollection<Brick>(100);
+
+            // Producer
+            Task.Run(() =>
             {
-                SeismicTraceReaderBase reader = dlg.SelectedVolume;
-                var gridInfo = reader.WorkingGridInfo;
-
-                var dimension1 = gridInfo.Extents.InlineAxis.End;
-                var dimension2 = gridInfo.Extents.CrosslineAxis.End;
-
-
-
-                var samplingInterval = gridInfo.Extents.TimeAxis.Increment;
-                double? parentInline = null;
-                double? parentCrossline = null;
-
-
                 for (var inline = gridInfo.Extents.InlineAxis.Start; inline < dimension1; inline++)
                 {
                     for (var crossline = gridInfo.Extents.CrosslineAxis.Start; crossline < dimension2; crossline++)
                     {
                         var data = reader.ReadResampledTrace((int)inline, (int)crossline, 100);
-                            //(float)samplingInterval);
-                        Brick n = new Brick
+                        //(float)samplingInterval);
+
+                        Brick brick = new Brick
                         {
                             inline = inline
-                            , crossline = crossline
-                            , samples = data
-                            , parentInline = parentInline
-                            , parentCrossline = parentCrossline
-                            , parentTime  = null
+                            ,
+                            crossline = crossline
+                            ,
+                            samples = data
+                            ,
+                            parentInline = parentInline
+                            ,
+                            parentCrossline = parentCrossline
+                            ,
+                            parentTime = null
                         };
 
-                        CreateBrick(n);
+                        var createProps =
+                                new Dictionary<string, object> { 
+                                                        { "inline", brick.inline }
+                                                        , {"crossline", brick.crossline}
+                                                        //, {"timeline", brick.timeline}
+                                                        , {"samples", brick.samples}
+                                                        //, {"sample", brick.samples[i]}
+                                };
+
+                        var result = session.Run(@"CREATE (brick:Brick {
+                                        inline: {inline}
+                                        , crossline: {crossline}
+                                        , samples: {samples} 
+                                        })",
+                                    createProps);
+
+                        // Add bricks collection
+                        bricks.Add(brick);
                         parentCrossline = crossline;
 
                     }
 
                     parentInline = inline;
                 }
-            }
+
+                bricks.CompleteAdding();
+            });
+
+
+            // Consumer
+            Task.Run(() =>
+            {
+                while (!bricks.IsCompleted)
+                {
+                    Brick brick = null;
+                    // Blocks if number.Count == 0
+                    // IOE means that Take() was called on a completed collection.
+                    // Some other thread can call CompleteAdding after we pass the
+                    // IsCompleted check but before we call Take. 
+                    // In this example, we can simply catch the exception since the 
+                    // loop will break on the next iteration.
+                    try
+                    {
+                        brick = bricks.Take();
+                    }
+                    catch (InvalidOperationException) { }
+
+                    if (brick != null)
+                    {
+                        BuildRelations(brick);
+                    }
+                }
+            });
         }
-    }
+    }                 
 }
