@@ -28,7 +28,7 @@ namespace SeismicGraphDatabase
         public string name { get; set; }
         public double? inline { get; set; }
         public double? crossline { get; set; }
-        public float? timeline { get; set; }
+        //public float? timeline { get; set; }
     };
 
 
@@ -83,20 +83,35 @@ namespace SeismicGraphDatabase
 
         private static void CreateRelation(Brick brick, Relation relation)
         {
+//            var cypher =
+//                        String.Format(@"MATCH (a:Brick),(b:Brick)
+//                        WHERE   a.inline = {0} AND b.inline = {1}                
+//                        AND     a.crossline = {2} AND b.crossline = {3}
+//                        AND     a.timeline = {4} AND b.timeline = {5}
+//                            CREATE (a)-[:{6}]->(b)"
+//                        , new object[] 
+//                        { 
+//                              relation.inline
+//                            , brick.inline
+//                            , relation.crossline
+//                            , brick.crossline
+//                            , relation.timeline
+//                            , brick.timeline
+//                            , relation.name
+//                        }
+//                    );
+
             var cypher =
                         String.Format(@"MATCH (a:Brick),(b:Brick)
                         WHERE   a.inline = {0} AND b.inline = {1}                
                         AND     a.crossline = {2} AND b.crossline = {3}
-                        AND     a.timeline = {4} AND b.timeline = {5}
-                            CREATE (a)-[:{6}]->(b)"
+                            CREATE (a)-[:{4}]->(b)"
                         , new object[] 
                         { 
                               relation.inline
                             , brick.inline
                             , relation.crossline
                             , brick.crossline
-                            , relation.timeline
-                            , brick.timeline
                             , relation.name
                         }
                     );
@@ -114,8 +129,8 @@ namespace SeismicGraphDatabase
                 inline = brick.inline
                 ,
                 crossline = brick.crossline
-                ,
-                timeline = null
+                //,
+                //timeline = null
             };
 
             Relation crossLineRelation = new Relation
@@ -125,8 +140,8 @@ namespace SeismicGraphDatabase
                 inline = brick.inline
                 ,
                 crossline = brick.parentCrossline
-                ,
-                timeline = null
+                //,
+                //timeline = null
             };
 
             Relation inLineRelation = new Relation
@@ -136,44 +151,51 @@ namespace SeismicGraphDatabase
                 inline = brick.parentInline
                 ,
                 crossline = brick.crossline
-                ,
-                timeline = null
+                //,
+                //timeline = null
             };
 
-            for (int i = 0; i < brick.samples.Length; i++)
+            //for (int i = 0; i < brick.samples.Length; i++)
             {
-                brick.timeline = i;
+                //brick.timeline = i;
 
                 // Create a single brick
                 var createProps =
                      new Dictionary<string, object> { 
                                                 { "inline", brick.inline }
                                                 , {"crossline", brick.crossline}
-                                                , {"timeline", brick.timeline}
-                                                , {"sample", brick.samples[i]}
+                                                //, {"timeline", brick.timeline}
+                                                , {"samples", brick.samples}
+                                                //, {"sample", brick.samples[i]}
                      };
+
+//                var result = session.Run(@"CREATE (brick:Brick {
+//                                            inline: {inline}
+//                                            , crossline: {crossline}
+//                                            , timeline: {timeline}
+//                                            , samples: {samples} 
+//                                            })",
+//                                            createProps);
 
                 var result = session.Run(@"CREATE (brick:Brick {
                                             inline: {inline}
                                             , crossline: {crossline}
-                                            , timeline: {timeline}
-                                            , sample: {sample} 
+                                            , samples: {samples} 
                                             })",
-                                            createProps);
+                            createProps);
 
-
-                //Timeline Relation
-                if (timeLineRelation.timeline != null) 
-                {
-                   CreateRelation(brick, timeLineRelation);
-                }
+                ////Timeline Relation
+                //if (timeLineRelation.timeline != null) 
+                //{
+                //   CreateRelation(brick, timeLineRelation);
+                //}
                 
-                timeLineRelation.timeline = brick.timeline;
+                //timeLineRelation.timeline = brick.timeline;
 
                 // Crossline Relation
                 if (crossLineRelation.crossline != null)
                 {
-                    crossLineRelation.timeline = brick.timeline;
+                    //crossLineRelation.timeline = brick.timeline;
                     CreateRelation(brick, crossLineRelation);
 
                 }
@@ -181,7 +203,7 @@ namespace SeismicGraphDatabase
                 // Inline Relation
                 if (inLineRelation.inline != null)
                 {
-                    inLineRelation.timeline = brick.timeline;
+                    //inLineRelation.timeline = brick.timeline;
                     CreateRelation(brick, inLineRelation);
                 }
               
@@ -245,7 +267,8 @@ namespace SeismicGraphDatabase
                 {
                     for (var crossline = gridInfo.Extents.CrosslineAxis.Start; crossline < dimension2; crossline++)
                     {
-                        var data = reader.ReadResampledTrace((int)inline, (int)crossline, (float)samplingInterval);
+                        var data = reader.ReadResampledTrace((int)inline, (int)crossline, 100);
+                            //(float)samplingInterval);
                         Brick n = new Brick
                         {
                             inline = inline
